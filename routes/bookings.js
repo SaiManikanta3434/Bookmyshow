@@ -1,31 +1,30 @@
 import express from 'express';
-import Booking from '../models/Booking.js';
-import Show from '../models/Show.js';
+import {
+  createBooking,
+  getBookings,
+  getBookingById,
+  updateBooking,
+  deleteBooking
+} from '../controllers/bookingController.js';
 import { authenticate } from '../middlewares/userAuth.js';
+
 const router = express.Router();
 
+router.use(authenticate); // Protect all booking routes
 
+// Create a new booking
+router.post('/', createBooking);
 
+// Get all bookings
+router.get('/', getBookings);
 
+// Get a booking by ID
+router.get('/:id', getBookingById);
 
-router.post('/:showId', authenticate, async (req, res) => {
-  const { seats } = req.body;
-  const show = await Show.findById(req.params.showId);
+// Update a booking
+router.put('/:id', updateBooking);
 
-  for (let s of seats) {
-    const seat = show.seats.find(seat => seat.number === s);
-    if (seat.isBooked) return res.status(400).json({ message: `Seat ${s} is already booked.` });
-    seat.isBooked = true;
-  }
-  await show.save();
-  const booking = new Booking({ user: req.user.userId, show: show._id, seats });
-  await booking.save();
-  res.json({ message: 'Booking successful' });
-});
-
-router.get('/history', authenticate, async (req, res) => {
-  const history = await Booking.find({ user: req.user.userId }).populate('show');
-  res.json(history);
-});
+// Delete a booking
+router.delete('/:id', deleteBooking);
 
 export default router;

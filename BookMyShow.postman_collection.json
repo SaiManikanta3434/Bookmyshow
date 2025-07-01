@@ -1,0 +1,169 @@
+{
+  "info": {
+    "_postman_id": "bms-collection-001",
+    "name": "BookMyShow Backend API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:4400/api/auth/register",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4400",
+              "path": ["api", "auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:4400/api/auth/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4400",
+              "path": ["api", "auth", "login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Movies",
+      "item": [
+        {
+          "name": "Get Movies by City",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:4400/api/movies/city/{{city}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4400",
+              "path": ["api", "movies", "city", "{{city}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bookings",
+      "item": [
+        {
+          "name": "Book Seats",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{user_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"seats\": [\"S1\", \"S2\"]\n}"
+            },
+            "url": {
+              "raw": "http://localhost:4400/api/bookings/{{showId}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4400",
+              "path": ["api", "bookings", "{{showId}}"]
+            }
+          }
+        },
+        {
+          "name": "Booking History",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{user_token}}" }
+            ],
+            "url": {
+              "raw": "http://localhost:4400/api/bookings/history",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4400",
+              "path": ["api", "bookings", "history"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Add Movie",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{admin_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Movie Title\",\n  \"city\": \"CityName\",\n  \"genre\": \"Genre\",\n  \"language\": \"Language\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:4400/api/admin/movie",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4400",
+              "path": ["api", "admin", "movie"]
+            }
+          }
+        },
+        {
+          "name": "Add Show to Movie",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{admin_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"venue\": \"Venue Name\",\n  \"time\": \"2024-06-01T19:00:00Z\",\n  \"seatCount\": 100\n}"
+            },
+            "url": {
+              "raw": "http://localhost:4400/api/admin/show/{{movieId}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4400",
+              "path": ["api", "admin", "show", "{{movieId}}"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "city", "value": "CityName" },
+    { "key": "showId", "value": "" },
+    { "key": "movieId", "value": "" },
+    { "key": "user_token", "value": "" },
+    { "key": "admin_token", "value": "" }
+  ]
+} 
